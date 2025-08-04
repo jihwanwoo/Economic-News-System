@@ -1,0 +1,108 @@
+[
+  {
+    "event_id": "^KQ11_VOLUME_1754290819",
+    "symbol": "^KQ11",
+    "name": "Kosdaq Composite Index",
+    "event_type": "volume_spike",
+    "severity": 1.0,
+    "timestamp": "2025-08-04T07:00:19.786268",
+    "current_price": 784.0599975585938,
+    "change_percent": 1.4583547731840838,
+    "volume": 699143,
+    "description": "Kosdaq Composite Index의 거래량이 평균 대비 15.2배 급증했습니다.",
+    "technical_indicators": {
+      "sma_20": 803.7929962158203,
+      "sma_50": 782.5087976074219,
+      "rsi": 30.709534458655085,
+      "bollinger_upper": 829.6639751630092,
+      "bollinger_lower": 777.9220172686313,
+      "bollinger_position": 0.11862674973552523
+    },
+    "market_context": {
+      "volume_ratio": 15.16414705563388,
+      "avg_volume": 46105.0
+    }
+  },
+  {
+    "event_id": "GC=F_VOLUME_1754290820",
+    "symbol": "GC=F",
+    "name": "GC=F",
+    "event_type": "volume_spike",
+    "severity": 0.46079907988060353,
+    "timestamp": "2025-08-04T07:00:19.798547",
+    "current_price": 3413.39990234375,
+    "change_percent": 0.0,
+    "volume": 33654,
+    "description": "GC=F의 거래량이 평균 대비 4.6배 급증했습니다.",
+    "technical_indicators": {
+      "sma_20": 3347.084997558594,
+      "sma_50": 3344.0760009765627,
+      "rsi": 59.74358930582564,
+      "bollinger_upper": 3427.3963066458537,
+      "bollinger_lower": 3266.773688471334,
+      "bollinger_position": 0.9128615604628217
+    },
+    "market_context": {
+      "volume_ratio": 4.607990798806036,
+      "avg_volume": 7303.4
+    }
+  },
+  {
+    "event_id": "^IXIC_DROP_1754290819",
+    "symbol": "^IXIC",
+    "name": "NASDAQ Composite",
+    "event_type": "drop",
+    "severity": 0.22360965552978196,
+    "timestamp": "2025-08-04T07:00:19.815704",
+    "current_price": 20650.130859375,
+    "change_percent": -2.2360965552978196,
+    "volume": 9667420000,
+    "description": "NASDAQ Composite이(가) -2.24% 급락했습니다.",
+    "technical_indicators": {
+      "sma_20": 20836.03603515625,
+      "sma_50": 20090.18390625,
+      "rsi": 50.37915766249075,
+      "bollinger_upper": 21329.810074398134,
+      "bollinger_lower": 20342.261995914363,
+      "bollinger_position": 0.3117507594499323
+    },
+    "market_context": {
+      "market_cap": null,
+      "price_range_24h": {
+        "high": 20865.630859375,
+        "low": 20560.169921875,
+        "range_percent": 1.4792203477070127
+      },
+      "previous_close": 21122.44921875
+    }
+  },
+  {
+    "event_id": "^GSPC_DROP_1754290819",
+    "symbol": "^GSPC",
+    "name": "S&P 500",
+    "event_type": "drop",
+    "severity": 0.1599213314014843,
+    "timestamp": "2025-08-04T07:00:19.736856",
+    "current_price": 6238.009765625,
+    "change_percent": -1.599213314014843,
+    "volume": 5827150000,
+    "description": "S&P 500이(가) -1.60% 급락했습니다.",
+    "technical_indicators": {
+      "sma_20": 6302.809497070312,
+      "sma_50": 6129.667783203125,
+      "rsi": 45.28123156937306,
+      "bollinger_upper": 6412.378488852626,
+      "bollinger_lower": 6193.2405052879985,
+      "bollinger_position": 0.204297126444071
+    },
+    "market_context": {
+      "market_cap": null,
+      "price_range_24h": {
+        "high": 6287.27978515625,
+        "low": 6212.68994140625,
+        "range_percent": 1.1957314360268028
+      },
+      "previous_close": 6339.39013671875
+    }
+  }
+]

@@ -1,4 +1,24 @@
-# Python
+# 민감한 정보
+config/slack_webhook.txt
+config/slack_config.json
+github_token_backup.txt
+*.env
+.env
+
+# AWS 자격증명
+.aws/
+aws-credentials.json
+
+# 로그 파일
+logs/
+*.log
+
+# 출력 파일
+output/
+*.json
+*.html
+
+# Python 캐시
 __pycache__/
 *.py[cod]
 *$py.class
@@ -45,29 +65,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -92,7 +89,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
@@ -118,39 +114,39 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# AWS credentials
-.aws/
-*.pem
-*.key
+# macOS
+.DS_Store
 
-# Logs
-logs/*.log
-*.log
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# Output files (optional - comment out if you want to include sample outputs)
-# output/*.json
-# output/*.html
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+# Linux
 *~
 
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# 임시 파일
+*.tmp
+*.temp
+*.swp
+*.swo
 
-# Streamlit
-.streamlit/secrets.toml
+# IDE 설정
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
 
-# Custom config files with sensitive data
-config/custom.json
-config/production.json
-config/secrets.json
+# 백업 파일
+*.bak
+*.backup
+
+# 데이터베이스
+*.db
+*.sqlite
+*.sqlite3
+
+# 압축 파일
+*.zip
+*.tar.gz
+*.rar

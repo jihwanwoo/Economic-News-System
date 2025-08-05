@@ -1,6 +1,330 @@
-# 경제 뉴스 자동 생성 시스템
+# 🤖 경제 뉴스 자동 생성 시스템
 
-AWS Bedrock과 Strands Agent를 활용한 지능형 경제 기사 자동 생성 시스템입니다.
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![AWS](https://img.shields.io/badge/AWS-Bedrock-orange.svg)](https://aws.amazon.com/bedrock/)
+[![Slack](https://img.shields.io/badge/Slack-Integration-4A154B.svg)](https://slack.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+AWS Bedrock과 고도화된 Agent 시스템을 활용한 지능형 경제 기사 자동 생성 및 실시간 알림 시스템입니다.
+
+## 🚀 주요 기능
+
+### 📊 **고도화된 이벤트 감지**
+- **기술적 분석**: RSI, MACD, 볼린저 밴드 등 13가지 지표
+- **감정 분석**: 뉴스 피드 기반 시장 심리 분석
+- **상관관계 분석**: 시장 간 상관관계 이탈 감지
+- **섹터 로테이션**: 자금 흐름 패턴 분석
+
+### 🤖 **AI 기반 뉴스 생성**
+- **AWS Bedrock Claude**: 고품질 경제 기사 자동 생성
+- **다중 Agent 시스템**: 전문화된 Agent들의 협업
+- **콘텐츠 최적화**: 가독성, SEO, 독자 참여도 최적화
+
+### 📱 **실시간 Slack 알림**
+- **즉시 알림**: 긴급 시장 이벤트 실시간 전송
+- **시장 요약**: 정기적인 종합 분석 리포트
+- **스마트 필터링**: 알림 피로도 최소화
+- **모바일 지원**: Slack 앱을 통한 모바일 알림
+
+### 📈 **Streamlit 대시보드**
+- **인터랙티브 차트**: 실시간 시장 데이터 시각화
+- **AI 생성 기사**: 웹 기반 기사 뷰어
+- **자동 이미지**: 기사 일러스트레이션 및 워드클라우드
+
+## 🏗️ 시스템 아키텍처
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Streamlit Dashboard                      │
+│                 (웹 인터페이스 & 시각화)                      │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│                Enhanced Monitor System                       │
+│              (고도화된 모니터링 시스템)                        │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+        ┌─────────────┼─────────────┐
+        │             │             │
+┌───────▼──────┐ ┌────▼─────┐ ┌────▼──────────┐
+│ Technical    │ │ Sentiment│ │ Correlation   │
+│ Analysis     │ │ Analysis │ │ Analysis      │
+│ Agent        │ │ Agent    │ │ Agent         │
+└──────────────┘ └──────────┘ └───────────────┘
+        │             │             │
+        └─────────────┼─────────────┘
+                      │
+        ┌─────────────▼─────────────┐
+        │      Slack Notifier       │
+        │    (실시간 알림 전송)       │
+        └───────────────────────────┘
+```
+
+## 📋 요구사항
+
+### 시스템 요구사항
+- Python 3.8+
+- AWS 계정 및 Bedrock 액세스 권한
+- Slack 워크스페이스 (알림용)
+- 인터넷 연결 (데이터 수집용)
+
+### AWS 권한
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:InvokeModel",
+                "bedrock:InvokeModelWithResponseStream"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+## 🛠️ 설치 및 설정
+
+### 1. 저장소 클론
+```bash
+git clone https://github.com/jihwanwoo/Economic-News-System.git
+cd Economic-News-System
+```
+
+### 2. 의존성 설치
+```bash
+pip install -r requirements.txt
+```
+
+### 3. AWS 자격 증명 설정
+```bash
+# AWS CLI 설정
+aws configure
+
+# 또는 환경 변수 설정
+export AWS_ACCESS_KEY_ID=your_access_key
+export AWS_SECRET_ACCESS_KEY=your_secret_key
+export AWS_DEFAULT_REGION=us-east-1
+```
+
+### 4. Slack 웹훅 설정
+```bash
+# Slack 웹훅 URL 설정
+export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+
+# 또는 설정 파일 생성
+cp config/slack_config_template.json config/slack_config.json
+# config/slack_config.json 편집
+```
+
+### 5. 시스템 테스트
+```bash
+# 전체 시스템 테스트
+python test_system.py
+
+# Slack 알림 테스트
+python demo_slack_alerts.py
+```
+
+## 🎯 사용법
+
+### 📱 **Slack 알림 시스템 (추천)**
+
+#### 즉시 테스트
+```bash
+python demo_slack_alerts.py
+```
+
+#### 연속 모니터링 시작
+```bash
+# 백그라운드 실행
+./start_background_monitoring.sh
+
+# 상태 확인
+./check_monitoring_status.sh
+
+# 중지
+./stop_monitoring.sh
+```
+
+### 📊 **Streamlit 대시보드**
+```bash
+# 대시보드 실행
+python demo_streamlit.py
+
+# 또는 직접 실행
+python run_streamlit.py
+```
+
+### 🖥️ **명령줄 인터페이스**
+```bash
+# 전체 파이프라인 실행
+python main.py --mode full
+
+# 특정 유형의 기사 생성
+python main.py --mode full --market-summary --stock-focus
+
+# 고도화된 이벤트 감지만 실행
+python data_monitoring/integrated_event_system.py
+```
+
+## 📊 알림 유형
+
+### 🚨 **긴급 알림** (심각도 0.6 이상)
+- 📈 주식 급등/급락 (5% 이상)
+- ⚡ 높은 변동성 (15% 이상)
+- 📊 거래량 급증 (평균 대비 3배)
+- 🚀 기술적 돌파 (볼린저 밴드, RSI)
+- 💭 시장 감정 급변
+- 🔄 모멘텀 다이버전스
+
+### 📋 **시장 요약** (1시간마다)
+- 전체 위험도 평가
+- 감지된 이벤트 요약
+- 주요 인사이트
+- 투자 시사점
+
+### 📰 **뉴스 업데이트**
+- AI 생성 기사 완료 알림
+- 주요 포인트 요약
+
+## ⚙️ 설정 커스터마이징
+
+### Slack 알림 설정
+```json
+{
+  "notification_settings": {
+    "send_summary": true,
+    "send_critical_alerts": true,
+    "summary_interval_minutes": 60,
+    "min_alert_severity": 0.6,
+    "max_alerts_per_hour": 15,
+    "cooldown_minutes": 15
+  }
+}
+```
+
+### 모니터링 대상 심볼
+```python
+monitoring_symbols = [
+    # 주요 지수
+    "^GSPC", "^IXIC", "^DJI", "^VIX",
+    
+    # 주요 개별 종목
+    "AAPL", "GOOGL", "MSFT", "TSLA", "NVDA",
+    
+    # 섹터 ETF
+    "XLK", "XLF", "XLE", "XLV"
+]
+```
+
+## 📁 출력 파일
+
+생성된 콘텐츠는 `output/` 디렉토리에 저장됩니다:
+
+```
+output/
+├── pipeline_result_20240804_143022.json    # 전체 실행 결과
+├── article_20240804_143022_1.html          # HTML 형식 기사
+├── slack_demo_20240804_143022.json         # Slack 알림 결과
+└── advanced_events_20240804_143022.json    # 고급 이벤트 감지 결과
+```
+
+## 🔍 모니터링 및 관리
+
+### 로그 확인
+```bash
+# 실시간 로그 모니터링
+tail -f logs/background_monitoring.log
+
+# 오류 로그 검색
+grep "ERROR" logs/slack_monitoring.log
+
+# 알림 통계
+grep "Slack 알림 전송 성공" logs/slack_monitoring.log | wc -l
+```
+
+### 성능 모니터링
+```bash
+# 시스템 상태 확인
+./check_monitoring_status.sh
+
+# 디스크 사용량 확인
+du -sh logs/ output/
+```
+
+## 🚨 문제 해결
+
+### 일반적인 문제들
+
+**AWS 자격 증명 오류**
+```bash
+aws configure list
+aws sts get-caller-identity
+```
+
+**Slack 웹훅 오류**
+```bash
+curl -X POST -H 'Content-type: application/json' \
+--data '{"text":"테스트 메시지"}' \
+$SLACK_WEBHOOK_URL
+```
+
+**알림이 너무 많음**
+```bash
+# config/slack_config.json에서 조정
+"min_alert_severity": 0.8,  # 0.6에서 0.8로 증가
+"max_alerts_per_hour": 8    # 15에서 8로 감소
+```
+
+## 📈 성능 최적화
+
+- **캐싱**: 데이터 수집 결과 캐싱으로 API 호출 최소화
+- **병렬 처리**: 여러 Agent 동시 실행
+- **배치 처리**: 대량 기사 생성 시 배치 모드 사용
+- **알림 최적화**: 스마트 필터링으로 중요한 알림만 전송
+
+## 🔒 보안 고려사항
+
+- AWS 자격 증명 안전한 관리
+- Slack 웹훅 URL 환경 변수 사용
+- 민감한 정보 `.gitignore`에 추가
+- 생성된 콘텐츠 검토 및 승인 프로세스
+
+## 🤝 기여
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+
+## 📞 지원
+
+문제가 발생하거나 질문이 있으시면:
+- GitHub Issues에 문제 보고
+- 로그 파일 확인 (`logs/` 디렉토리)
+- 설정 파일 및 환경 변수 재확인
+
+---
+
+**주의사항**: 
+- 이 시스템은 투자 조언을 제공하지 않습니다
+- 생성된 콘텐츠는 정보 제공 목적으로만 사용하세요
+- 중요한 투자 결정은 전문가와 상담하세요
+
+## 🎉 특별 감사
+
+- AWS Bedrock Claude 모델
+- Yahoo Finance API
+- Slack API
+- Streamlit 커뮤니티
 
 ## 🚀 주요 기능
 

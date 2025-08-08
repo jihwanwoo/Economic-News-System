@@ -4,6 +4,10 @@
   "temperature": 0.7,
   "max_tokens": 4000,
   
+  "api_keys": {
+    "alpha_vantage": "9TLAUWS4L3099YK3"
+  },
+  
   "data_collection": {
     "stock_symbols": [
       "AAPL", "GOOGL", "MSFT", "TSLA", "NVDA", 

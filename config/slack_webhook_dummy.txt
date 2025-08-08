@@ -1,0 +1,4 @@
+# 더미 웹훅 URL (테스트용)
+# 실제 Slack 알림을 받으려면 새로운 웹훅을 생성하세요
+# 가이드: setup_slack_webhook.md 참조
+DISABLED

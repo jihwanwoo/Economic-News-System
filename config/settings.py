@@ -4,12 +4,55 @@
 
 import json
 import os
+import configparser
 from typing import Dict, Any
 from pathlib import Path
 
 
+def load_aws_credentials_from_configure():
+    """configure 파일에서 AWS 자격증명을 로드하여 환경변수로 설정"""
+    
+    # 프로젝트 루트의 configure 파일 경로
+    project_root = Path(__file__).parent.parent
+    config_file = project_root / "configure"
+    
+    if not config_file.exists():
+        print(f"⚠️  configure 파일을 찾을 수 없습니다: {config_file}")
+        return False
+    
+    try:
+        config = configparser.ConfigParser()
+        config.read(config_file)
+        
+        if 'aws' not in config:
+            print("⚠️  configure 파일에 [aws] 섹션이 없습니다")
+            return False
+        
+        aws_config = config['aws']
+        
+        # 환경변수 설정 (기존 환경변수가 없는 경우에만)
+        if not os.environ.get('AWS_ACCESS_KEY_ID'):
+            os.environ['AWS_ACCESS_KEY_ID'] = aws_config.get('aws_access_key_id', '')
+        
+        if not os.environ.get('AWS_SECRET_ACCESS_KEY'):
+            os.environ['AWS_SECRET_ACCESS_KEY'] = aws_config.get('aws_secret_access_key', '')
+        
+        if not os.environ.get('AWS_DEFAULT_REGION'):
+            os.environ['AWS_DEFAULT_REGION'] = aws_config.get('aws_default_region', 'us-east-1')
+        
+        print("✅ AWS 자격증명이 configure 파일에서 로드되었습니다")
+        return True
+        
+    except Exception as e:
+        print(f"❌ configure 파일 읽기 오류: {e}")
+        return False
+
+
 def load_config(config_path: str = None) -> Dict[str, Any]:
     """설정 파일 로드"""
+    
+    # AWS 자격증명을 configure 파일에서 자동 로드
+    load_aws_credentials_from_configure()
     
     # 기본 설정
     default_config = {

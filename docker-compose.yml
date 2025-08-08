@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  economic-news-system:
+    build: .
+    container_name: economic-news-system
+    restart: unless-stopped
+    
+    # 환경 변수 (실제 사용 시 .env 파일 생성)
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    
+    # 볼륨 마운트
+    volumes:
+      - ./logs:/app/logs
+      - ./output:/app/output
+      - ./config:/app/config
+    
+    # 포트 매핑 (Streamlit 대시보드용)
+    ports:
+      - "8501:8501"
+    
+    # 네트워크
+    networks:
+      - economic-news-network
+    
+    # 헬스체크
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis (캐싱용 - 선택사항)
+  redis:
+    image: redis:7-alpine
+    container_name: economic-news-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - economic-news-network
+    command: redis-server --appendonly yes
+
+networks:
+  economic-news-network:
+    driver: bridge
+
+volumes:
+  redis_data:

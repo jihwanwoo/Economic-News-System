@@ -45,6 +45,9 @@ Pillow>=10.0.0
 opencv-python>=4.8.0
 wordcloud>=1.9.0
 
+# 시스템 모니터링을 위한 추가 의존성
+psutil>=5.9.0
+
 # Slack 알림 시스템을 위한 추가 의존성
 aiohttp>=3.8.0
 

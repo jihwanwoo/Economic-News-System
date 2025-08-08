@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from data_monitoring.advanced_event_detector import AdvancedEventDetector, AdvancedEconomicEvent, AdvancedEventType
 from data_monitoring.advanced_event_detector_part2 import AdvancedEventDetectorExtended
+from data_monitoring.enhanced_data_collector import EnhancedGlobalDataCollector
 
 class IntegratedEventSystem:
     """통합 이벤트 감지 시스템"""
@@ -22,11 +23,27 @@ class IntegratedEventSystem:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self.detector = AdvancedEventDetectorExtended()
+        self.data_collector = EnhancedGlobalDataCollector()
         
-        # 모니터링 대상 심볼들
+        # 모니터링 대상 심볼들 (향상된 글로벌 커버리지)
         self.monitoring_symbols = [
-            # 주요 지수
-            "^GSPC", "^IXIC", "^DJI", "^VIX",
+            # 미국 주요 지수
+            "^GSPC", "^IXIC", "^DJI", "^VIX", "^RUT",
+            
+            # 미국 주요 주식
+            "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "NVDA", "META",
+            
+            # 아시아 주요 지수
+            "^KS11", "^N225", "000001.SS", "^HSI", "^TWII", "^STI",
+            
+            # 통화 (DXY 문제 해결)
+            "DX-Y.NYB", "USDKRW=X", "USDJPY=X", "USDCNY=X", "EURUSD=X",
+            
+            # 원자재
+            "GC=F", "CL=F", "BTC-USD",
+            
+            # 채권
+            "^TNX", "^TYX", "^FVX"
             
             # 주요 개별 종목
             "AAPL", "GOOGL", "MSFT", "TSLA", "NVDA", "AMZN", "META",
@@ -39,35 +56,123 @@ class IntegratedEventSystem:
         ]
     
     async def run_comprehensive_analysis(self) -> Dict:
-        """종합적인 시장 분석 실행"""
+        """종합적인 시장 분석 실행 (향상된 데이터 수집 포함)"""
         try:
             self.logger.info("통합 이벤트 감지 시스템 시작")
             
-            # 고도화된 이벤트 감지 실행
+            # 1. 향상된 글로벌 데이터 수집
+            self.logger.info("글로벌 시장 데이터 수집 중...")
+            comprehensive_report = self.data_collector.generate_comprehensive_report()
+            
+            # 2. 고도화된 이벤트 감지 실행
+            self.logger.info("고도화된 이벤트 감지 실행 중...")
             events = await self.detector.detect_advanced_events(self.monitoring_symbols)
             
-            # 결과 분석 및 요약
-            analysis_summary = self._create_analysis_summary(events)
+            # 3. 뉴스 및 감정 분석 통합
+            news_sentiment = comprehensive_report.get('sentiment_analysis', {})
             
-            # 결과 저장
+            # 4. 결과 분석 및 요약
+            analysis_summary = self._create_enhanced_analysis_summary(
+                events, comprehensive_report, news_sentiment
+            )
+            
+            # 5. 종합 결과 생성
             result = {
                 "timestamp": datetime.now().isoformat(),
                 "total_events": len(events),
                 "analysis_summary": analysis_summary,
                 "events": [self._event_to_dict(event) for event in events],
-                "monitoring_symbols": self.monitoring_symbols
+                "market_data_summary": comprehensive_report.get('market_summary', {}),
+                "news_summary": comprehensive_report.get('news_summary', {}),
+                "sentiment_analysis": news_sentiment,
+                "economic_indicators": comprehensive_report.get('economic_indicators', []),
+                "monitoring_symbols": self.monitoring_symbols,
+                "data_sources": {
+                    "us_markets": len(self.data_collector.market_symbols.get("US_INDICES", {})) + 
+                                 len(self.data_collector.market_symbols.get("US_STOCKS", {})),
+                    "asia_markets": len(self.data_collector.market_symbols.get("ASIA_INDICES", {})),
+                    "currencies": len(self.data_collector.market_symbols.get("CURRENCIES", {})),
+                    "commodities": len(self.data_collector.market_symbols.get("COMMODITIES", {})),
+                    "news_articles": comprehensive_report.get('news_summary', {}).get('total_articles', 0)
+                }
             }
             
-            # 파일로 저장
+            # 6. 결과 저장
             self._save_results(result)
             
             self.logger.info(f"분석 완료: {len(events)}개 이벤트 감지")
-            
             return result
             
         except Exception as e:
-            self.logger.error(f"통합 분석 중 오류 발생: {str(e)}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            self.logger.error(f"종합 분석 실행 중 오류: {str(e)}")
+            return {
+                "timestamp": datetime.now().isoformat(),
+                "error": str(e),
+                "total_events": 0,
+                "events": []
+            }
+    
+    def _create_enhanced_analysis_summary(self, events: List, comprehensive_report: Dict, news_sentiment: Dict) -> Dict:
+        """향상된 분석 요약 생성"""
+        try:
+            # 기존 요약
+            basic_summary = self._create_analysis_summary(events)
+            
+            # 추가 분석
+            market_summary = comprehensive_report.get('market_summary', {})
+            
+            enhanced_summary = {
+                **basic_summary,
+                "global_market_status": {
+                    "us_market": market_summary.get('us_market_status', 'neutral'),
+                    "asia_market": market_summary.get('asia_market_status', 'neutral'),
+                    "overall_sentiment": news_sentiment.get('overall_sentiment', 0.0)
+                },
+                "major_market_movers": market_summary.get('major_movers', [])[:3],
+                "risk_assessment": {
+                    "vix_level": market_summary.get('risk_indicators', {}).get('vix', {}).get('level', 'unknown'),
+                    "news_sentiment": self._categorize_sentiment(news_sentiment.get('overall_sentiment', 0.0)),
+                    "event_severity": self._assess_event_severity(events)
+                },
+                "news_insights": {
+                    "total_articles": news_sentiment.get('total_articles', 0),
+                    "sentiment_distribution": news_sentiment.get('sentiment_distribution', {}),
+                    "top_keywords": news_sentiment.get('top_keywords', [])[:5]
+                }
+            }
+            
+            return enhanced_summary
+            
+        except Exception as e:
+            self.logger.error(f"향상된 분석 요약 생성 오류: {e}")
+            return self._create_analysis_summary(events)
+    
+    def _categorize_sentiment(self, sentiment_score: float) -> str:
+        """감정 점수를 카테고리로 변환"""
+        if sentiment_score > 0.3:
+            return "매우 긍정적"
+        elif sentiment_score > 0.1:
+            return "긍정적"
+        elif sentiment_score > -0.1:
+            return "중립적"
+        elif sentiment_score > -0.3:
+            return "부정적"
+        else:
+            return "매우 부정적"
+    
+    def _assess_event_severity(self, events: List) -> str:
+        """이벤트 심각도 평가"""
+        if not events:
+            return "낮음"
+        
+        high_severity_count = sum(1 for event in events if getattr(event, 'severity', 0.5) > 0.7)
+        
+        if high_severity_count >= 3:
+            return "높음"
+        elif high_severity_count >= 1:
+            return "중간"
+        else:
+            return "낮음"
     
     def _create_analysis_summary(self, events: List[AdvancedEconomicEvent]) -> Dict:
         """분석 결과 요약 생성"""
